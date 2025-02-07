@@ -3,5 +3,5 @@ plugins {
 }
 rootProject.name = "service-users"
 include("core")
-include("infrastructure")
+include("api")
 include("app")
