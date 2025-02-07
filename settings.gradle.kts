@@ -5,3 +5,4 @@ rootProject.name = "service-users"
 include("core")
 include("api")
 include("app")
+include("persistence")
