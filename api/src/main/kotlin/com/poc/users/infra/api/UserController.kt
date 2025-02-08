@@ -4,7 +4,6 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/users")
 class UserController(private val userAdapter: UserAdapter) {
 
     @GetMapping

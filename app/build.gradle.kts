@@ -13,7 +13,11 @@ repositories {
 }
 
 dependencies {
+    implementation(project(":core"))
+    implementation(project(":api"))
+    implementation(project(":persistence"))
     implementation("org.springframework.boot:spring-boot-starter")
+
     testImplementation(kotlin("test"))
 }
 
