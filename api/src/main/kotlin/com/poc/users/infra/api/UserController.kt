@@ -1,6 +1,7 @@
 package com.poc.users.infra.api
 
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -19,19 +20,18 @@ class UserController(private val userAdapter: UserAdapter) {
     //TODO : move this controller as register AuthController
     @PostMapping
     fun createUser(@RequestBody request: UserCreationRequest): ResponseEntity<UserView>{
-        println(request)
         //TODO : Probably should return template register-confirmation
         return ResponseEntity.ok(userAdapter.create(request))
     }
 
     @PutMapping("/{id}")
-    //@PreAuthorize("@authServerSecurityGuard.isSelfOrAdmin(#id)")
+    @PreAuthorize("@securityGuard.isSelfOrAdmin(#id)")
     fun updateUser(@PathVariable id: String, @RequestBody request: UserEditionRequest): ResponseEntity<UserView?>{
         return ResponseEntity.ok(userAdapter.update(id, request))
     }
 
     @DeleteMapping("/{id}")
-    //@PreAuthorize("@authServerSecurityGuard.hasAdminRole()")
+    @PreAuthorize("@securityGuard.hasAdminRole()")
     fun deleteUser(@PathVariable id: String): ResponseEntity<String>{
         userAdapter.delete(id)
         return ResponseEntity.ok("User with id: $id has been deleted")
