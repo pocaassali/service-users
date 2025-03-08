@@ -20,7 +20,7 @@ class UserApplicationServiceImpl(
         return getAllUsers.handle(GetAllUsersQuery())
     }
 
-    override fun getUserById(query: GetUserByIdQuery): User? {
+    override fun getUserById(query: GetUserByIdQuery): Optional<User> {
         return getUserById.handle(query)
     }
 

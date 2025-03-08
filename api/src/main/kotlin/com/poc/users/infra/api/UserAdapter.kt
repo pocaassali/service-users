@@ -18,7 +18,7 @@ class UserAdapter(
     }
 
     fun getUserById(id: String): UserView? {
-        return applicationService.getUserById(GetUserByIdQuery(UUID.fromString(id)))?.let { UserView.from(it) }
+        return applicationService.getUserById(GetUserByIdQuery(UUID.fromString(id))).getOrNull()
     }
 
     fun create(request: UserCreationRequest): UserView? {

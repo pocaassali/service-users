@@ -10,7 +10,7 @@ import java.util.*
 
 interface UserApplicationService {
     fun getAllUsers(): List<User>
-    fun getUserById(query: GetUserByIdQuery): User?
+    fun getUserById(query: GetUserByIdQuery): Optional<User>
     fun createUser(command: CreateUserCommand): Optional<User>
     fun updateUser(command: UpdateUserCommand): User?
     fun deleteUser(command: DeleteUserCommand)

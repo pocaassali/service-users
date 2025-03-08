@@ -2,6 +2,7 @@ package com.poc.users.infra.persistence
 
 import com.poc.users.core.application.ports.output.Users
 import com.poc.users.core.domain.model.User
+import com.poc.users.core.domain.valueobject.Mail
 import org.springframework.stereotype.Repository
 import java.util.*
 
@@ -34,8 +35,12 @@ class InMemoryUserRepository : Users {
         return users.map { it.value.toUser() }
     }
 
-    override fun findById(id: UUID): User? {
-        return users.values.find { it.identifier == id.toString() }?.toUser()
+    override fun findById(id: UUID): Optional<User> {
+        return Optional.ofNullable(users.values.find { it.identifier == id.toString() }?.toUser())
+    }
+
+    override fun findByMail(mail: Mail): Optional<User> {
+        return Optional.ofNullable(users.values.find { it.mail == mail.value }?.toUser())
     }
 
     override fun update(user: User): User? {
