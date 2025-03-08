@@ -9,6 +9,7 @@ class UserService(private val users: Users) {
 
     fun createUser(user: User): Optional<User> {
         doesNotExist(user)
+
         return users.save(user)
     }
 

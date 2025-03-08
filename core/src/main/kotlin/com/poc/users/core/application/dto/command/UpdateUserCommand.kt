@@ -18,7 +18,7 @@ class UpdateUserCommand(
         return User(
             identifier = UUID.fromString(identifier),
             mail = Mail(mail),
-            password = Password(hashedPassword),
+            password = Password("",hashedPassword),
             role = UserRole.valueOf(role),
         )
     }

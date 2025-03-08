@@ -16,7 +16,7 @@ data class UserEntity(
         return User(
             identifier = UUID.fromString(identifier),
             mail = Mail(mail),
-            password = Password(password),
+            password = Password.DEFAULT.copy(encryptedValue = password),
             role = UserRole.valueOf(role),
         )
     }
@@ -26,7 +26,7 @@ data class UserEntity(
             return UserEntity(
                 identifier = user.identifier.toString(),
                 mail = user.mail.value,
-                password = user.password.value,
+                password = user.password.encryptedValue,
                 role = user.role.name
             )
         }
