@@ -7,6 +7,7 @@ import com.poc.users.core.application.dto.query.GetAllUsersQuery
 import com.poc.users.core.application.dto.query.GetUserByIdQuery
 import com.poc.users.core.application.ports.input.UserApplicationService
 import com.poc.users.core.domain.model.User
+import java.util.*
 
 class UserApplicationServiceImpl(
     private val createUser : CreateUser,
@@ -23,7 +24,7 @@ class UserApplicationServiceImpl(
         return getUserById.handle(query)
     }
 
-    override fun createUser(command: CreateUserCommand): User? {
+    override fun createUser(command: CreateUserCommand): Optional<User> {
         return createUser.handle(command)
     }
 

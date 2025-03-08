@@ -17,10 +17,8 @@ class UserController(private val userAdapter: UserAdapter) {
         return ResponseEntity.ok(userAdapter.getUserById(id))
     }
 
-    //TODO : move this controller as register AuthController
     @PostMapping
     fun createUser(@RequestBody request: UserCreationRequest): ResponseEntity<UserView>{
-        //TODO : Probably should return template register-confirmation
         return ResponseEntity.ok(userAdapter.create(request))
     }
 

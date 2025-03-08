@@ -2,6 +2,7 @@ package com.poc.users.config
 
 import com.poc.users.core.application.ports.output.Users
 import com.poc.users.core.application.service.*
+import com.poc.users.core.domain.service.UserService
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
@@ -35,7 +36,10 @@ class CoreConfiguration {
     )
 
     @Bean
-    fun createUser(users: Users) = CreateUser(users = users)
+    fun userService(users: Users) = UserService(users)
+
+    @Bean
+    fun createUser(userService: UserService) = CreateUser(userService)
 
     @Bean
     fun getAllUsers(users: Users) = GetAllUsers(users = users)

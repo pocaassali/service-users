@@ -24,10 +24,10 @@ class InMemoryUserRepository : Users {
         ))
     )
 
-    override fun save(user: User): User? {
+    override fun save(user: User): Optional<User> {
         val id = (users.size+1).toLong()
         users[id] = UserEntity.from(user)
-        return users[id]?.toUser()
+        return Optional.ofNullable(users[id]?.toUser())
     }
 
     override fun findAll(): List<User> {

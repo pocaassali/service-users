@@ -7,7 +7,7 @@ import com.poc.users.core.domain.valueobject.UserRole
 import java.util.*
 
 data class CreateUserCommand(
-    val identifier : String,
+    val identifier : UUID,
     val mail : String,
     val password : String,
     val encryptedPassword : String,
@@ -15,7 +15,7 @@ data class CreateUserCommand(
 ) {
     fun toUser(): User {
         return User(
-            identifier = UUID.fromString(identifier),
+            identifier = identifier,
             mail = Mail(mail),
             password = Password(encryptedPassword),
             role = UserRole.valueOf(role),
