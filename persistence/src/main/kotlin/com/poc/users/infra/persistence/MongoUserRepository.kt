@@ -34,6 +34,7 @@ class MongoUserRepository(
     }
 
     override fun delete(id: UUID) {
-        TODO("Not yet implemented")
+        val findUser = repository.findByIdentifier(id.toString()) ?: return
+        repository.delete(findUser)
     }
 }
