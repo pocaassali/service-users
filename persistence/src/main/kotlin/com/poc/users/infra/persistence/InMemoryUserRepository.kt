@@ -28,6 +28,7 @@ class InMemoryUserRepository : Users {
     override fun save(user: User): Optional<User> {
         val id = (users.size+1).toLong()
         users[id] = UserEntity.from(user)
+        println("new user ${users[id]}")
         return Optional.ofNullable(users[id]?.toUser())
     }
 
