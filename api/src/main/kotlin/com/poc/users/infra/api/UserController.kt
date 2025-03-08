@@ -35,4 +35,10 @@ class UserController(private val userAdapter: UserAdapter) {
         userAdapter.delete(id)
         return ResponseEntity.ok("User with id: $id has been deleted")
     }
+
+    @PostMapping("/credentials")
+    fun getUserByCredentials(@RequestBody credentials: UserLoginRequest) : ResponseEntity<LoginResponse?>{
+        println(credentials)
+        return ResponseEntity.ok(userAdapter.getUserByCredentials(credentials))
+    }
 }

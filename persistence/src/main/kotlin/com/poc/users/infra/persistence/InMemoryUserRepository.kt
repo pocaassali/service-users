@@ -3,6 +3,7 @@ package com.poc.users.infra.persistence
 import com.poc.users.core.application.ports.output.Users
 import com.poc.users.core.domain.model.User
 import com.poc.users.core.domain.valueobject.Mail
+import com.poc.users.core.domain.valueobject.Password
 import org.springframework.stereotype.Repository
 import java.util.*
 
@@ -43,10 +44,10 @@ class InMemoryUserRepository : Users {
         return Optional.ofNullable(users.values.find { it.mail == mail.value }?.toUser())
     }
 
-    override fun update(user: User): User? {
+    override fun update(user: User): Optional<User> {
         val userToUpdate = users.entries.find { UUID.fromString(it.value.identifier) == user.identifier }
         userToUpdate?.let { users[it.key] = UserDocument.from(user) }
-        return users[userToUpdate?.key]?.toUser()
+        return Optional.ofNullable(users[userToUpdate?.key]?.toUser())
     }
 
     override fun delete(id: UUID) {

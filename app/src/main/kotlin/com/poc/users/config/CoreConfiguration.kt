@@ -27,12 +27,14 @@ class CoreConfiguration {
         getUserById: GetUserById,
         updateUser: UpdateUser,
         deleteUser: DeleteUser,
+        getUserByCredentials: GetUserByCredentials,
     ) = UserApplicationServiceImpl(
         createUser = createUser,
         getAllUsers = getAllUsers,
         getUserById = getUserById,
         updateUser = updateUser,
-        deleteUser = deleteUser
+        deleteUser = deleteUser,
+        getUserByCredentials = getUserByCredentials,
     )
 
     @Bean
@@ -48,8 +50,11 @@ class CoreConfiguration {
     fun getUserById(users: Users) = GetUserById(users = users)
 
     @Bean
-    fun updateUser(users: Users) = UpdateUser(users = users)
+    fun updateUser(userService: UserService) = UpdateUser(userService)
 
     @Bean
     fun deleteUser(users: Users) = DeleteUser(users = users)
+
+    @Bean
+    fun getUserByCredentials(users: Users) = GetUserByCredentials(users = users)
 }

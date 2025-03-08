@@ -27,8 +27,10 @@ class MongoUserRepository(
         return Optional.ofNullable(repository.findByMail(mail.value)?.toUser())
     }
 
-    override fun update(user: User): User? {
-        TODO("Not yet implemented")
+    override fun update(user: User): Optional<User> {
+        val findUser = repository.findByIdentifier(user.identifier.toString()) ?: return Optional.empty()
+        val userToUpdate = UserDocument.from(user).copy(id = findUser.id)
+        return Optional.of(repository.save(userToUpdate).toUser())
     }
 
     override fun delete(id: UUID) {

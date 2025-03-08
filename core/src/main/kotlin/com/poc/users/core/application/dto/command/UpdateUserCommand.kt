@@ -7,7 +7,7 @@ import com.poc.users.core.domain.valueobject.UserRole
 import java.util.*
 
 class UpdateUserCommand(
-    private val identifier : String,
+    private val identifier : UUID,
     val mail : String,
     val password : String,
     val hashedPassword : String,
@@ -16,9 +16,9 @@ class UpdateUserCommand(
 
     fun toUser(): User {
         return User(
-            identifier = UUID.fromString(identifier),
+            identifier = identifier,
             mail = Mail(mail),
-            password = Password("",hashedPassword),
+            password = Password.DEFAULT.copy(encryptedValue = hashedPassword),
             role = UserRole.valueOf(role),
         )
     }

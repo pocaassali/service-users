@@ -13,6 +13,10 @@ class UserService(private val users: Users) {
         return users.save(user)
     }
 
+    fun updateUser(user: User): Optional<User> {
+        return users.update(user)
+    }
+
     private fun doesNotExist(user: User) {
         if (users.findById(user.identifier).isPresent) {
             throw UserCreationException(NOT_UNIQUE_IDENTIFIER_ERROR)

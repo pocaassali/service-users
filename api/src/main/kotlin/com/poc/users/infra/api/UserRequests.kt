@@ -2,6 +2,7 @@ package com.poc.users.infra.api
 
 import com.poc.users.core.application.dto.command.CreateUserCommand
 import com.poc.users.core.application.dto.command.UpdateUserCommand
+import com.poc.users.core.application.dto.query.GetUserByCredentialsQuery
 import java.util.*
 
 data class UserCreationRequest(
@@ -25,13 +26,21 @@ data class UserEditionRequest(
     val password : String,
     val role : String,
 ) {
-    fun toCommand(id: String, encryptedPassword : String) : UpdateUserCommand {
+    fun toCommand(identifier: UUID, encryptedPassword : String) : UpdateUserCommand {
         return UpdateUserCommand(
-            identifier = id,
+            identifier = identifier,
             mail = mail,
             password = password,
             hashedPassword = encryptedPassword,
             role = role
         )
     }
+}
+
+data class UserLoginRequest(
+    val mail : String,
+){
+    fun toQuery() : GetUserByCredentialsQuery = GetUserByCredentialsQuery(
+        mail = mail,
+    )
 }

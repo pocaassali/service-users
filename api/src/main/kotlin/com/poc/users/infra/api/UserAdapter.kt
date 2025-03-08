@@ -32,12 +32,22 @@ class UserAdapter(
 
     fun update(id: String, request: UserEditionRequest): UserView? {
         return applicationService.updateUser(
-            request.toCommand(id, passwordEncoder.encode(request.password))
-        )?.let { UserView.from(it) }
+            request.toCommand(
+                identifier = UUID.fromString(id),
+                encryptedPassword = passwordEncoder.encode(request.password)
+            )
+        ).getOrNull()
     }
 
     fun delete(id: String) {
         applicationService.deleteUser(DeleteUserCommand(id))
+    }
+
+    fun getUserByCredentials(credentials : UserLoginRequest) : LoginResponse? {
+        return applicationService
+            .getUserByCredentials(credentials.toQuery())
+            .map { LoginResponse.from(it) }
+            ?.orElse(null)
     }
 }
 

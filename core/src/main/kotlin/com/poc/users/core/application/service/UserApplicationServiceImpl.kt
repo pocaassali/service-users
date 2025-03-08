@@ -4,6 +4,7 @@ import com.poc.users.core.application.dto.command.CreateUserCommand
 import com.poc.users.core.application.dto.command.DeleteUserCommand
 import com.poc.users.core.application.dto.command.UpdateUserCommand
 import com.poc.users.core.application.dto.query.GetAllUsersQuery
+import com.poc.users.core.application.dto.query.GetUserByCredentialsQuery
 import com.poc.users.core.application.dto.query.GetUserByIdQuery
 import com.poc.users.core.application.ports.input.UserApplicationService
 import com.poc.users.core.domain.model.User
@@ -15,6 +16,7 @@ class UserApplicationServiceImpl(
     private val getUserById : GetUserById,
     private val updateUser : UpdateUser,
     private val deleteUser : DeleteUser,
+    private val getUserByCredentials : GetUserByCredentials,
 ) : UserApplicationService {
     override fun getAllUsers(): List<User> {
         return getAllUsers.handle(GetAllUsersQuery())
@@ -28,12 +30,15 @@ class UserApplicationServiceImpl(
         return createUser.handle(command)
     }
 
-    override fun updateUser(command: UpdateUserCommand): User? {
+    override fun updateUser(command: UpdateUserCommand): Optional<User> {
         return updateUser.handle(command)
     }
 
     override fun deleteUser(command: DeleteUserCommand) {
         deleteUser.handle(command)
-        return
+    }
+
+    override fun getUserByCredentials(query: GetUserByCredentialsQuery): Optional<User> {
+        return getUserByCredentials.handle(query)
     }
 }
