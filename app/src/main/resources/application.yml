@@ -1,6 +1,15 @@
 spring :
   application :
     name: service-users
+  data:
+    mongodb:
+      host: ${mongo.hostname}
+      port: ${mongo.port}
+      database: ${mongo.database}
+      username: ${mongo.username}
+      password: ${mongo.password}
+      #authenticationDatabase: admin
+      #auto-index-creation: true
 server:
   port: 8081
   servlet:

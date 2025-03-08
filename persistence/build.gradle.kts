@@ -15,6 +15,8 @@ repositories {
 dependencies {
     implementation(project(":core"))
     implementation("org.springframework.boot:spring-boot-starter")
+    implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
+    implementation("org.jetbrains.kotlin:kotlin-reflect")
 
     testImplementation(kotlin("test"))
 }

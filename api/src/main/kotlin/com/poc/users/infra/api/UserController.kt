@@ -10,13 +10,11 @@ class UserController(private val userAdapter: UserAdapter) {
 
     @PostMapping
     fun createUser(@RequestBody request: UserCreationRequest): ResponseEntity<UserView>{
-        println(request)
         return ResponseEntity.ok(userAdapter.create(request))
     }
 
     @GetMapping
     fun getUsers(): ResponseEntity<List<UserView>> {
-        println("should not be called")
         return ResponseEntity.ok(userAdapter.getAllUsers())
     }
 

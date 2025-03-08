@@ -22,7 +22,6 @@ class JwtSessionFilter(
         response: HttpServletResponse,
         filterChain: FilterChain
     ) {
-        println("FILTER JWT IN HEADER")
         val authHeader = request.getHeader(HttpHeaders.AUTHORIZATION)
 
         if (authHeader.isNullOrBlank() || !authHeader.startsWith("Bearer ")) {
@@ -31,7 +30,6 @@ class JwtSessionFilter(
         }
 
         val token = authHeader.substring(7)
-        println(token)
 
         try {
             val claims = jwtUtil.extractAllClaims(token)

@@ -7,3 +7,9 @@ server:
     context-path: /svc/users
 jwt:
   secret: Xv1qj8+0Vd6k2ZGk7RkB0TzJ4GqWJXVy9DfV4bNvl6Y=
+mongo:
+  hostname: localhost
+  port: 27017
+  username: blendiy
+  password: password
+  database: service_users_db

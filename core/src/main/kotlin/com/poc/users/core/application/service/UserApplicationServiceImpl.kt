@@ -25,9 +25,7 @@ class UserApplicationServiceImpl(
     }
 
     override fun createUser(command: CreateUserCommand): Optional<User> {
-        val res = createUser.handle(command)
-        println("RES : $res")
-        return res
+        return createUser.handle(command)
     }
 
     override fun updateUser(command: UpdateUserCommand): User? {
