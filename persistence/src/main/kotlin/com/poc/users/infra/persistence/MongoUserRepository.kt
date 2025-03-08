@@ -16,7 +16,7 @@ class MongoUserRepository(
     }
 
     override fun findAll(): List<User> {
-        TODO("Not yet implemented")
+        return repository.findAll().map { it.toUser() }
     }
 
     override fun findById(id: UUID): Optional<User> {
