@@ -11,5 +11,5 @@ interface Users {
     fun findById(id: UUID): Optional<User>
     fun findByMail(mail: Mail): Optional<User>
     fun update(user: User): Optional<User>
-    fun delete(id: UUID)
+    fun delete(id: UUID) : Boolean
 }

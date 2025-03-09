@@ -1,4 +1,4 @@
-package com.poc.users.core.application.service
+package com.poc.users.core.application.service.usecase
 
 import com.poc.users.core.application.dto.command.CreateUserCommand
 import com.poc.users.core.ddd.Usecase

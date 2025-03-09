@@ -50,8 +50,9 @@ class InMemoryUserRepository : Users {
         return Optional.ofNullable(users[userToUpdate?.key]?.toUser())
     }
 
-    override fun delete(id: UUID) {
+    override fun delete(id: UUID): Boolean {
         val userToDelete = users.entries.find { UUID.fromString(it.value.identifier) == id }
         userToDelete?.let { users.remove(it.key) }
+        return userToDelete != null
     }
 }

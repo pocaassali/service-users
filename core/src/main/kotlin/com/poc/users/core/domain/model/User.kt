@@ -6,7 +6,7 @@ import com.poc.users.core.domain.valueobject.UserRole
 import java.util.UUID
 
 data class User(
-    val identifier : UUID,
+    val identifier : UUID, //TODO : update with Identifier class
     val mail : Mail,
     val password : Password,
     val role : UserRole,

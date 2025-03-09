@@ -1,7 +1,6 @@
-package com.poc.users.core.application.service
+package com.poc.users.core.application.service.usecase
 
 import com.poc.users.core.application.dto.query.GetUserByCredentialsQuery
-import com.poc.users.core.application.dto.query.GetUserByIdQuery
 import com.poc.users.core.application.ports.output.Users
 import com.poc.users.core.ddd.Usecase
 import com.poc.users.core.domain.model.User

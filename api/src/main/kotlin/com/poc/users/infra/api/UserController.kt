@@ -34,17 +34,12 @@ class UserController(private val userAdapter: UserAdapter) {
     @DeleteMapping("/{id}")
     @PreAuthorize("@securityGuard.hasAdminRole()")
     fun deleteUser(@PathVariable id: String): ResponseEntity<ApiResponse>{
-        return try{
-            userAdapter.delete(id)
-            ResponseEntity.ok(mapOf("message" to "User with id: $id has been deleted"))
-        } catch (e : NoSuchElementException){
-            ResponseEntity.status(HttpStatus.NOT_FOUND).body(mapOf("message" to "User with id: $id not found"))
-        }
+        userAdapter.delete(id)
+        return ResponseEntity.ok(mapOf("message" to "User with id: $id has been deleted"))
     }
 
     @PostMapping("/credentials")
     fun getUserByCredentials(@RequestBody credentials: UserLoginRequest) : ResponseEntity<LoginResponse?>{
-        println(credentials)
         return ResponseEntity.ok(userAdapter.getUserByCredentials(credentials))
     }
 }

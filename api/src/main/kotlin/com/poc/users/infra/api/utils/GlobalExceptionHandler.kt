@@ -1,6 +1,7 @@
 package com.poc.users.infra.api.utils
 
 import com.poc.users.core.domain.exception.UserCreationException
+import com.poc.users.core.domain.exception.UserNotFoundException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.authorization.AuthorizationDeniedException
@@ -19,6 +20,12 @@ class GlobalExceptionHandler {
     fun handleUserAlreadyExistsException(ex: UserCreationException, request: WebRequest): ResponseEntity<Any> {
         val errorResponse = ErrorResponse(HttpStatus.BAD_REQUEST.value(), ex.message!!)
         return ResponseEntity(errorResponse, HttpStatus.BAD_REQUEST)
+    }
+
+    @ExceptionHandler(UserNotFoundException::class)
+    fun handleUserNotFoundException(ex: UserNotFoundException, request: WebRequest): ResponseEntity<Any> {
+        val errorResponse = ErrorResponse(HttpStatus.NOT_FOUND.value(), ex.message!!)
+        return ResponseEntity(errorResponse, HttpStatus.NOT_FOUND)
     }
 
     @ExceptionHandler(MethodArgumentNotValidException::class)

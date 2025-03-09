@@ -3,8 +3,9 @@ package com.poc.users.core.domain.service
 import com.poc.users.core.application.ports.output.Users
 import com.poc.users.core.ddd.DomainService
 import com.poc.users.core.domain.exception.UserCreationException
+import com.poc.users.core.domain.exception.UserNotFoundException
 import com.poc.users.core.domain.model.User
-import java.util.Optional
+import java.util.*
 
 @DomainService
 class UserService(private val users: Users) {
@@ -19,6 +20,11 @@ class UserService(private val users: Users) {
         return users.update(user)
     }
 
+    fun deleteUser(identifier: UUID) {
+        if (users.delete(identifier)) return
+        else throw UserNotFoundException(USER_NOT_FOUND_ERROR)
+    }
+
     private fun doesNotExist(user: User) {
         if (users.findById(user.identifier).isPresent) {
             throw UserCreationException(NOT_UNIQUE_IDENTIFIER_ERROR)
@@ -31,6 +37,7 @@ class UserService(private val users: Users) {
     companion object {
         private const val NOT_UNIQUE_IDENTIFIER_ERROR = "Oops something went wrong with ID !"
         private const val NOT_UNIQUE_MAIL_ERROR = "Oops something went wrong with MAIL !"
+        private const val USER_NOT_FOUND_ERROR = "User not found !"
     }
 
 }

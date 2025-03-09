@@ -33,8 +33,11 @@ class MongoUserRepository(
         return Optional.of(repository.save(userToUpdate).toUser())
     }
 
-    override fun delete(id: UUID) {
-        val findUser = repository.findByIdentifier(id.toString()) ?: throw NoSuchElementException()
+    override fun delete(id: UUID) : Boolean {
+        val findUser = repository.findByIdentifier(id.toString()) ?: return false
         repository.delete(findUser)
+        return true
     }
+
+
 }
