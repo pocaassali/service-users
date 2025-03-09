@@ -7,7 +7,7 @@ import com.poc.users.core.domain.valueobject.Password
 import org.springframework.stereotype.Repository
 import java.util.*
 
-//@Repository
+@Deprecated("Use MongoUserRepository instead")
 class InMemoryUserRepository : Users {
 
     private val users = mutableMapOf(
