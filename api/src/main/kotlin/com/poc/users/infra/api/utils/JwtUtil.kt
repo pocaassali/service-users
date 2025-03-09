@@ -1,8 +1,7 @@
-package com.poc.users.infra.api.security
+package com.poc.users.infra.api.utils
 
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
-import io.jsonwebtoken.SignatureAlgorithm
 import io.jsonwebtoken.io.Decoders
 import io.jsonwebtoken.security.Keys
 import jakarta.annotation.PostConstruct
@@ -27,34 +26,25 @@ class JwtUtil {
     @Value("\${jwt.secret}")
     private lateinit var secretKey: String
 
-    private fun getSignKey(): Key {
-        val keyBytes = Decoders.BASE64.decode(secretKey)
-        return Keys.hmacShaKeyFor(keyBytes)
-    }
-
     fun extractAllClaims(token: String): Claims {
         return Jwts.parserBuilder()
             .setSigningKey(getSignKey())
             .build()
-            .parseClaimsJws(token) //An error is thrown here when given access token is expired
+            .parseClaimsJws(token)
             .body
-    }
-
-    fun <T> extractClaim(token: String, claimsResolver: (Claims) -> T): T {
-        val claims = extractAllClaims(token)
-        return claimsResolver(claims)
     }
 
     fun extractUsername(token: String): String {
         return extractClaim(token) { it.subject }
     }
 
-    fun isTokenValid(token: String, userDetails: UserDetails): Boolean {
-        val username = extractUsername(token)
-        return username == userDetails.username && !isTokenExpired(token)
+    private fun <T> extractClaim(token: String, claimsResolver: (Claims) -> T): T {
+        val claims = extractAllClaims(token)
+        return claimsResolver(claims)
     }
 
-    fun isTokenExpired(token: String): Boolean {
-        return extractClaim(token) { it.expiration }.before(Date())
+    private fun getSignKey(): Key {
+        val keyBytes = Decoders.BASE64.decode(secretKey)
+        return Keys.hmacShaKeyFor(keyBytes)
     }
 }

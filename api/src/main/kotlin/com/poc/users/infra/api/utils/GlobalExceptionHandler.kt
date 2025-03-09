@@ -1,4 +1,4 @@
-package com.poc.users.infra.api
+package com.poc.users.infra.api.utils
 
 import com.poc.users.core.domain.exception.UserCreationException
 import org.springframework.http.HttpStatus

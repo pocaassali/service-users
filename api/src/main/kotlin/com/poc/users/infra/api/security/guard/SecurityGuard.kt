@@ -1,4 +1,4 @@
-package com.poc.users.infra.api.guard
+package com.poc.users.infra.api.security.guard
 
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Component

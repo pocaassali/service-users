@@ -1,5 +1,6 @@
 package com.poc.users.infra.api
 
+import com.poc.users.infra.api.utils.ApiResponse
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize

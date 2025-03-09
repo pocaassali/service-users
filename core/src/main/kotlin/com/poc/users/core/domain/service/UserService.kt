@@ -1,10 +1,12 @@
 package com.poc.users.core.domain.service
 
 import com.poc.users.core.application.ports.output.Users
+import com.poc.users.core.ddd.DomainService
 import com.poc.users.core.domain.exception.UserCreationException
 import com.poc.users.core.domain.model.User
 import java.util.Optional
 
+@DomainService
 class UserService(private val users: Users) {
 
     fun createUser(user: User): Optional<User> {

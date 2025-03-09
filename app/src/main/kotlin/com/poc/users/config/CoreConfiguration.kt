@@ -1,60 +1,19 @@
 package com.poc.users.config
 
-import com.poc.users.core.application.ports.output.Users
-import com.poc.users.core.application.service.*
-import com.poc.users.core.domain.service.UserService
-import org.springframework.context.annotation.Bean
+import com.poc.users.core.ddd.ApplicationService
+import com.poc.users.core.ddd.DomainService
+import com.poc.users.core.ddd.Usecase
+import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.ComponentScan.Filter
+import org.springframework.context.annotation.FilterType.ANNOTATION
 
-
-/*
 @Configuration
 @ComponentScan(
     basePackages = ["com.poc.users"],
     includeFilters = [Filter(
         type = ANNOTATION,
-        value = [DomainService::class, Stub::class, AntiCorruptionLayer::class, Usecase::class, Adapter::class]
+        value = [DomainService::class, ApplicationService::class, Usecase::class]
     )]
 )
-class CoreConfiguration*/
-@Configuration
-class CoreConfiguration {
-
-    @Bean
-    fun userApplicationConfig(
-        createUser: CreateUser,
-        getAllUsers: GetAllUsers,
-        getUserById: GetUserById,
-        updateUser: UpdateUser,
-        deleteUser: DeleteUser,
-        getUserByCredentials: GetUserByCredentials,
-    ) = UserApplicationServiceImpl(
-        createUser = createUser,
-        getAllUsers = getAllUsers,
-        getUserById = getUserById,
-        updateUser = updateUser,
-        deleteUser = deleteUser,
-        getUserByCredentials = getUserByCredentials,
-    )
-
-    @Bean
-    fun userService(users: Users) = UserService(users)
-
-    @Bean
-    fun createUser(userService: UserService) = CreateUser(userService)
-
-    @Bean
-    fun getAllUsers(users: Users) = GetAllUsers(users = users)
-
-    @Bean
-    fun getUserById(users: Users) = GetUserById(users = users)
-
-    @Bean
-    fun updateUser(userService: UserService) = UpdateUser(userService)
-
-    @Bean
-    fun deleteUser(users: Users) = DeleteUser(users = users)
-
-    @Bean
-    fun getUserByCredentials(users: Users) = GetUserByCredentials(users = users)
-}
+class CoreConfiguration
