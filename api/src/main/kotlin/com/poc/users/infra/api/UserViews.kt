@@ -1,7 +1,6 @@
 package com.poc.users.infra.api
 
 import com.poc.users.core.domain.model.User
-import com.poc.users.core.domain.valueobject.Password
 
 data class UserView(
     val identifier : String,

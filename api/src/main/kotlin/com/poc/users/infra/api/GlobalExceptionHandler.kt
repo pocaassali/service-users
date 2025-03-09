@@ -3,6 +3,7 @@ package com.poc.users.infra.api
 import com.poc.users.core.domain.exception.UserCreationException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.authorization.AuthorizationDeniedException
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.context.request.WebRequest
@@ -31,6 +32,11 @@ class GlobalExceptionHandler {
 
         val errorResponse = ErrorResponse(HttpStatus.BAD_REQUEST.value(), errors.joinToString(", "))
         return ResponseEntity(errorResponse, HttpStatus.BAD_REQUEST)
+    }
+
+    @ExceptionHandler(AuthorizationDeniedException::class)
+    fun handleAccessDeniedException(ex: AuthorizationDeniedException): ResponseEntity<ApiResponse> {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ApiResponse(ex.message ?: "Access Denied"))
     }
 
     @ExceptionHandler(Exception::class)
