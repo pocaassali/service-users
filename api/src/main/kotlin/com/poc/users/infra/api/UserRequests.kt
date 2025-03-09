@@ -22,16 +22,16 @@ data class UserCreationRequest(
 }
 
 data class UserEditionRequest(
-    val mail : String,
-    val password : String,
-    val role : String,
+    val mail : String? = null,
+    val password : String? = null,
+    val role : String? = null,
 ) {
-    fun toCommand(identifier: UUID, encryptedPassword : String) : UpdateUserCommand {
+    fun toCommand(identifier: UUID, hashedPassword : String?) : UpdateUserCommand {
         return UpdateUserCommand(
             identifier = identifier,
             mail = mail,
             password = password,
-            hashedPassword = encryptedPassword,
+            hashedPassword = hashedPassword,
             role = role
         )
     }

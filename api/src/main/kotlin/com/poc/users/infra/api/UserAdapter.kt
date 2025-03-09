@@ -34,7 +34,7 @@ class UserAdapter(
         return applicationService.updateUser(
             request.toCommand(
                 identifier = UUID.fromString(id),
-                encryptedPassword = passwordEncoder.encode(request.password)
+                hashedPassword = request.password?.let { passwordEncoder.encode(it) }
             )
         ).getOrNull()
     }

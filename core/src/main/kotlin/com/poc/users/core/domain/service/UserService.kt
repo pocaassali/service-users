@@ -5,6 +5,7 @@ import com.poc.users.core.ddd.DomainService
 import com.poc.users.core.domain.exception.UserCreationException
 import com.poc.users.core.domain.exception.UserNotFoundException
 import com.poc.users.core.domain.model.User
+import com.poc.users.core.domain.model.UserUpdateHelper
 import java.util.*
 
 @DomainService
@@ -16,8 +17,11 @@ class UserService(private val users: Users) {
         return users.save(user)
     }
 
-    fun updateUser(user: User): Optional<User> {
-        return users.update(user)
+    fun updateUser(user: UserUpdateHelper, identifier: UUID): Optional<User> {
+        val optionalUser = users.findById(identifier)
+        if (optionalUser.isEmpty) throw UserNotFoundException(USER_NOT_FOUND_ERROR)
+        val updatedUser = optionalUser.get().updateWith(user)
+        return users.update(updatedUser)
     }
 
     fun deleteUser(identifier: UUID) {

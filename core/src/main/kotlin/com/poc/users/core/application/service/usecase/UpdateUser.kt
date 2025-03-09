@@ -11,6 +11,6 @@ class UpdateUser(
     private val service : UserService,
 ): AbstractCommandHandler<UpdateUserCommand, Optional<User>>() {
     override fun execute(command: UpdateUserCommand): Optional<User> {
-        return service.updateUser(command.toUser())
+        return service.updateUser(identifier= command.identifier, user = command.toUser())
     }
 }
