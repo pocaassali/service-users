@@ -17,8 +17,12 @@ dependencies {
     implementation(project(":api"))
     implementation(project(":persistence"))
     implementation("org.springframework.boot:spring-boot-starter")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.15.2")
 
     testImplementation(kotlin("test"))
+    testImplementation("org.springframework.boot:spring-boot-starter-test:3.1.4") {
+        exclude(module = "mockito-core")
+    }
 }
 
 tasks.test {

@@ -24,6 +24,11 @@ dependencies {
 tasks.test {
     useJUnitPlatform()
 }
+
+tasks.bootJar{
+    enabled = false
+}
+
 kotlin {
     jvmToolchain(21)
 }

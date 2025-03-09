@@ -18,7 +18,7 @@ data class CreateUserCommand(
             identifier = identifier,
             mail = Mail(mail),
             password = Password(password, encryptedPassword),
-            role = UserRole.valueOf(role),
+            role = UserRole.valueOf(role.uppercase()),
         )
     }
 }

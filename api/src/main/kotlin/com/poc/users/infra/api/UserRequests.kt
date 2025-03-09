@@ -1,5 +1,7 @@
 package com.poc.users.infra.api
 
+import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.annotation.JsonProperty
 import com.poc.users.core.application.dto.command.CreateUserCommand
 import com.poc.users.core.application.dto.command.UpdateUserCommand
 import com.poc.users.core.application.dto.query.GetUserByCredentialsQuery
@@ -37,8 +39,9 @@ data class UserEditionRequest(
     }
 }
 
-data class UserLoginRequest(
-    val mail : String,
+
+data class UserLoginRequest @JsonCreator constructor(
+    @JsonProperty("mail") val mail : String
 ){
     fun toQuery() : GetUserByCredentialsQuery = GetUserByCredentialsQuery(
         mail = mail,
