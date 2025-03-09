@@ -35,9 +35,9 @@ class UserController(private val userAdapter: UserAdapter) {
     fun deleteUser(@PathVariable id: String): ResponseEntity<ApiResponse>{
         return try{
             userAdapter.delete(id)
-            ResponseEntity.ok(ApiResponse("User with id: $id has been deleted"))
+            ResponseEntity.ok(mapOf("message" to "User with id: $id has been deleted"))
         } catch (e : NoSuchElementException){
-            ResponseEntity.status(HttpStatus.NOT_FOUND).body(ApiResponse("User with id: $id not found"))
+            ResponseEntity.status(HttpStatus.NOT_FOUND).body(mapOf("message" to "User with id: $id not found"))
         }
     }
 

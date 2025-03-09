@@ -36,7 +36,7 @@ class GlobalExceptionHandler {
 
     @ExceptionHandler(AuthorizationDeniedException::class)
     fun handleAccessDeniedException(ex: AuthorizationDeniedException): ResponseEntity<ApiResponse> {
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ApiResponse(ex.message ?: "Access Denied"))
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(mapOf("message" to (ex.message ?: "Access Denied")))
     }
 
     @ExceptionHandler(Exception::class)
