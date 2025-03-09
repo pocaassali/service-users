@@ -8,126 +8,111 @@ import com.poc.users.core.domain.model.UserUpdateHelper
 import com.poc.users.core.domain.valueobject.Mail
 import com.poc.users.core.domain.valueobject.Password
 import com.poc.users.core.domain.valueobject.UserRole
+import com.poc.users.core.factories.anUser
+import com.poc.users.core.factories.anUserUpdateHelper
 import io.mockk.*
-import org.junit.jupiter.api.Assertions.*
+import io.mockk.impl.annotations.InjectMockKs
+import io.mockk.impl.annotations.RelaxedMockK
+import io.mockk.junit5.MockKExtension
+import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import java.util.*
 
+@ExtendWith(MockKExtension::class)
 class UserServiceTest {
 
-    /**
-     * Tests for UserService.createUser.
-     */
+    @RelaxedMockK
+    private lateinit var mockUsers: Users
+
+    @InjectMockKs
+    private lateinit var service: UserService
+
     @Test
     fun `createUser should save valid user`() {
-        val mockUsers = mockk<Users>()
-        val user = User(identifier = UUID.randomUUID(), mail = Mail("test@mail.com"), password = Password("<PaSSW0RD>!", "<PASSWORD>"), role = UserRole.USER)
+        val user = anUser()
         val expectedResult = Optional.of(user)
 
         every { mockUsers.findById(user.identifier) } returns Optional.empty()
         every { mockUsers.findByMail(user.mail) } returns Optional.empty()
         every { mockUsers.save(user) } returns expectedResult
 
-        val userService = UserService(mockUsers)
-        val result = userService.createUser(user)
+        val result = service.createUser(user)
 
-        assertEquals(expectedResult, result)
+        assertThat(result).isEqualTo(expectedResult)
         verify { mockUsers.save(user) }
     }
 
     @Test
     fun `createUser should throw UserCreationException if user ID already exists`() {
-        val mockUsers = mockk<Users>()
-        val user = User(identifier = UUID.randomUUID(), mail = Mail("test@mail.com"), password = Password("<PaSSW0RD>!", "<PASSWORD>"), role = UserRole.USER)
+        val user = anUser()
 
         every { mockUsers.findById(user.identifier) } returns Optional.of(user)
 
-        val userService = UserService(mockUsers)
-
         assertThrows(UserCreationException::class.java) {
-            userService.createUser(user)
+            service.createUser(user)
         }
+
     }
 
     @Test
     fun `createUser should throw UserCreationException if email already exists`() {
-        val mockUsers = mockk<Users>()
-        val user = User(identifier = UUID.randomUUID(), mail = Mail("test@mail.com"), password = Password("<PaSSW0RD>!", "<PASSWORD>"), role = UserRole.USER)
-
+        val user = anUser()
         every { mockUsers.findById(user.identifier) } returns Optional.empty()
         every { mockUsers.findByMail(user.mail) } returns Optional.of(user)
 
-        val userService = UserService(mockUsers)
 
         assertThrows(UserCreationException::class.java) {
-            userService.createUser(user)
+            service.createUser(user)
         }
     }
 
-    /**
-     * Tests for UserService.updateUser.
-     */
     @Test
     fun `updateUser should update existing user`() {
-        val mockUsers = mockk<Users>()
-        val originalUser = User(identifier = UUID.randomUUID(), mail = Mail("test@mail.com"), password = Password("<PaSSW0RD>!", "<PASSWORD>"), role = UserRole.USER)
-        val updateHelper = UserUpdateHelper(mail = Optional.of(Mail("updated@mail.com")), password = Optional.empty(), role = Optional.empty())
+        val originalUser = anUser()
+        val updateHelper = anUserUpdateHelper(mail = "updated@mail.com")
         val updatedUser = originalUser.updateWith(updateHelper)
         val identifier = originalUser.identifier
         val expectedResult = Optional.of(updatedUser)
-
         every { mockUsers.findById(identifier) } returns Optional.of(originalUser)
         every { mockUsers.update(updatedUser) } returns expectedResult
 
-        val userService = UserService(mockUsers)
-        val result = userService.updateUser(updateHelper, identifier)
+        val result = service.updateUser(updateHelper, identifier)
 
-        assertEquals(expectedResult, result)
+        assertThat(result).isEqualTo(expectedResult)
         verify { mockUsers.update(updatedUser) }
     }
 
     @Test
     fun `updateUser should throw UserNotFoundException if user does not exist`() {
-        val mockUsers = mockk<Users>()
-        val updateHelper = UserUpdateHelper(mail = Optional.of(Mail("updated@mail.com")), password = Optional.empty(), role = Optional.empty())
+        val updateHelper = anUserUpdateHelper(mail = "updated@mail.com")
         val identifier = UUID.randomUUID()
-
         every { mockUsers.findById(identifier) } returns Optional.empty()
 
-        val userService = UserService(mockUsers)
 
         assertThrows(UserNotFoundException::class.java) {
-            userService.updateUser(updateHelper, identifier)
+            service.updateUser(updateHelper, identifier)
         }
     }
 
-    /**
-     * Tests for UserService.deleteUser.
-     */
     @Test
     fun `deleteUser should delete existing user`() {
-        val mockUsers = mockk<Users>()
         val identifier = UUID.randomUUID()
-
         every { mockUsers.delete(identifier) } returns true
 
-        val userService = UserService(mockUsers)
-        userService.deleteUser(identifier)
+        service.deleteUser(identifier)
 
         verify { mockUsers.delete(identifier) }
     }
 
     @Test
     fun `deleteUser should throw UserNotFoundException if user does not exist`() {
-        val mockUsers = mockk<Users>()
         val identifier = UUID.randomUUID()
-
         every { mockUsers.delete(identifier) } returns false
 
-        val userService = UserService(mockUsers)
-
         assertThrows(UserNotFoundException::class.java) {
-            userService.deleteUser(identifier)
+            service.deleteUser(identifier)
         }
     }
 }
