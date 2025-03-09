@@ -4,7 +4,6 @@ import com.poc.users.core.domain.exception.UserCreationException
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertThrows
 import kotlin.test.Test
-import kotlin.test.assertTrue
 
 class MailShould {
 

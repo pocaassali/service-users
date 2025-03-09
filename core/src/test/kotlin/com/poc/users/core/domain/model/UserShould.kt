@@ -3,16 +3,13 @@ package com.poc.users.core.domain.model
 import com.poc.users.core.domain.valueobject.Mail
 import com.poc.users.core.domain.valueobject.Password
 import com.poc.users.core.domain.valueobject.UserRole
-import com.poc.users.core.factories.anAdmin
 import com.poc.users.core.factories.anUser
 import com.poc.users.core.factories.anUserUpdateHelper
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import java.util.*
 
-class UserTest {
+class UserShould {
     @Test
     fun `updateWith should update mail when new mail is provided`() {
         val originalUser = anUser()
