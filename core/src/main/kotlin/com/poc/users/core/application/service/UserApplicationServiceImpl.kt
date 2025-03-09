@@ -21,7 +21,7 @@ class UserApplicationServiceImpl(
     private val getUserByCredentials : GetUserByCredentials,
 ) : UserApplicationService {
     override fun getAllUsers(): List<User> {
-        return getAllUsers.handle(GetAllUsersQuery())
+        return getAllUsers.execute()
     }
 
     override fun getUserById(query: GetUserByIdQuery): Optional<User> {
