@@ -18,7 +18,7 @@ class UserAdapter(
     }
 
     fun getUserById(id: String): UserView? {
-        return applicationService.getUserById(GetUserByIdQuery(UUID.fromString(id)))?.let { UserView.from(it) }
+        return applicationService.getUserById(GetUserByIdQuery(UUID.fromString(id))).getOrNull()
     }
 
     fun create(request: UserCreationRequest): UserView? {
@@ -32,12 +32,22 @@ class UserAdapter(
 
     fun update(id: String, request: UserEditionRequest): UserView? {
         return applicationService.updateUser(
-            request.toCommand(id, passwordEncoder.encode(request.password))
-        )?.let { UserView.from(it) }
+            request.toCommand(
+                identifier = UUID.fromString(id),
+                hashedPassword = request.password?.let { passwordEncoder.encode(it) }
+            )
+        ).getOrNull()
     }
 
     fun delete(id: String) {
         applicationService.deleteUser(DeleteUserCommand(id))
+    }
+
+    fun getUserByCredentials(credentials : UserLoginRequest) : LoginResponse? {
+        return applicationService
+            .getUserByCredentials(credentials.toQuery())
+            .map { LoginResponse.from(it) }
+            ?.orElse(null)
     }
 }
 

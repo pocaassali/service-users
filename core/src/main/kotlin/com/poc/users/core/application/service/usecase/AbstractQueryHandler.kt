@@ -1,4 +1,4 @@
-package com.poc.users.core.application.service
+package com.poc.users.core.application.service.usecase
 
 abstract class AbstractQueryHandler<Q,R> {
     protected abstract fun execute(query: Q): R

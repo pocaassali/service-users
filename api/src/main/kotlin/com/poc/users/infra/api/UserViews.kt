@@ -17,3 +17,21 @@ data class UserView(
         }
     }
 }
+
+data class LoginResponse(
+    val identifier : String,
+    val password : String,
+    val mail : String,
+    val role : String,
+) {
+    companion object {
+        fun from(user: User) : LoginResponse {
+            return LoginResponse(
+                identifier = user.identifier.toString(),
+                password = user.password.encryptedValue,
+                mail = user.mail.value,
+                role = user.role.name
+            )
+        }
+    }
+}

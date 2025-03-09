@@ -17,7 +17,7 @@ data class CreateUserCommand(
         return User(
             identifier = identifier,
             mail = Mail(mail),
-            password = Password(encryptedPassword),
+            password = Password(password, encryptedPassword),
             role = UserRole.valueOf(role),
         )
     }

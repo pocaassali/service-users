@@ -4,9 +4,13 @@ import com.poc.users.core.domain.model.User
 import com.poc.users.core.domain.valueobject.Mail
 import com.poc.users.core.domain.valueobject.Password
 import com.poc.users.core.domain.valueobject.UserRole
+import org.springframework.data.annotation.Id
+import org.springframework.data.mongodb.core.mapping.Document
 import java.util.*
 
-data class UserEntity(
+@Document(collection = "users")
+data class UserDocument(
+    @Id val id : String? = null,
     val identifier: String,
     val mail: String,
     val password: String,
@@ -16,17 +20,17 @@ data class UserEntity(
         return User(
             identifier = UUID.fromString(identifier),
             mail = Mail(mail),
-            password = Password(password),
+            password = Password.DEFAULT.copy(encryptedValue = password),
             role = UserRole.valueOf(role),
         )
     }
 
     companion object {
-        fun from(user: User): UserEntity {
-            return UserEntity(
+        fun from(user: User): UserDocument {
+            return UserDocument(
                 identifier = user.identifier.toString(),
                 mail = user.mail.value,
-                password = user.password.value,
+                password = user.password.encryptedValue,
                 role = user.role.name
             )
         }

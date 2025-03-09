@@ -2,9 +2,9 @@ package com.poc.users.infra.api
 
 import com.poc.users.core.application.dto.command.CreateUserCommand
 import com.poc.users.core.application.dto.command.UpdateUserCommand
+import com.poc.users.core.application.dto.query.GetUserByCredentialsQuery
 import java.util.*
 
-//TODO: improve request by removing identifier and role may be add username latter for now only mail and password are required
 data class UserCreationRequest(
     val mail : String,
     val password : String,
@@ -22,17 +22,25 @@ data class UserCreationRequest(
 }
 
 data class UserEditionRequest(
-    val mail : String,
-    val password : String,
-    val role : String,
+    val mail : String? = null,
+    val password : String? = null,
+    val role : String? = null,
 ) {
-    fun toCommand(id: String, encryptedPassword : String) : UpdateUserCommand {
+    fun toCommand(identifier: UUID, hashedPassword : String?) : UpdateUserCommand {
         return UpdateUserCommand(
-            identifier = id,
+            identifier = identifier,
             mail = mail,
             password = password,
-            hashedPassword = encryptedPassword,
+            hashedPassword = hashedPassword,
             role = role
         )
     }
+}
+
+data class UserLoginRequest(
+    val mail : String,
+){
+    fun toQuery() : GetUserByCredentialsQuery = GetUserByCredentialsQuery(
+        mail = mail,
+    )
 }

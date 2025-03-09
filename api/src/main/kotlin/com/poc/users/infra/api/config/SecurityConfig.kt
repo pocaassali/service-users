@@ -1,6 +1,6 @@
 package com.poc.users.infra.api.config
 
-import com.poc.users.infra.api.filters.JwtSessionFilter
+import com.poc.users.infra.api.security.filters.JwtSessionFilter
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.authentication.AuthenticationManager
