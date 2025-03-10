@@ -1,11 +1,14 @@
 package com.poc.users.core.application.service
 
+import com.poc.users.core.application.dto.command.DeleteUserCommand
+import com.poc.users.core.application.dto.query.GetUserByCredentialsQuery
 import com.poc.users.core.application.dto.query.GetUserByIdQuery
 import com.poc.users.core.application.ports.output.Users
 import com.poc.users.core.application.service.usecase.*
 import com.poc.users.core.domain.service.UserService
 import com.poc.users.core.factories.aCreateUserCommand
 import com.poc.users.core.factories.anAdmin
+import com.poc.users.core.factories.anUpdateUserCommand
 import com.poc.users.core.factories.anUser
 import com.poc.users.core.fakes.FakeUserRepository
 import io.mockk.MockKAnnotations
@@ -24,13 +27,12 @@ import org.junit.jupiter.api.extension.ExtendWith
 import java.util.*
 
 @ExtendWith(MockKExtension::class)
-@Disabled
 class UserApplicationServiceImplShould {
 
-    @InjectMockKs
+    @RelaxedMockK
     private lateinit var getAllUsers: GetAllUsers
 
-    @InjectMockKs
+    @RelaxedMockK
     private lateinit var getUserById: GetUserById
 
     @RelaxedMockK
@@ -47,17 +49,6 @@ class UserApplicationServiceImplShould {
 
     @InjectMockKs
     private lateinit var service: UserApplicationServiceImpl
-
-    @RelaxedMockK
-    private lateinit var users: Users
-
-    @RelaxedMockK
-    private lateinit var userService: UserService
-
-    @BeforeEach
-    fun setUp() {
-        MockKAnnotations.init(this) // Initialisation des mocks avant chaque test
-    }
 
     @Test
     fun `getAllUsers should return list of users`() {
@@ -89,11 +80,6 @@ class UserApplicationServiceImplShould {
     fun `createUser should create and return user`() {
         val command = aCreateUserCommand()
         val user = anUser()
-        every { users.findById(user.identifier) } returns Optional.empty()
-        every { users.findByMail(user.mail) } returns Optional.empty()
-        //every { userService.createUser(user) } returns Optional.of(user)
-        every { users.save(user) } returns Optional.of(user)
-        every { userService.createUser(user) } returns Optional.of(user)
         every { createUser.handle(command) } returns Optional.of(user)
 
 
@@ -104,16 +90,16 @@ class UserApplicationServiceImplShould {
         verify { createUser.handle(command) }
     }
 
-    /*@Test
+    @Test
     fun `updateUser should update and return user`() {
         val command = anUpdateUserCommand()
         val updatedUser = anUser()
         every { updateUser.handle(command) } returns Optional.of(updatedUser)
 
-        val result = userApplicationService.updateUser(command)
+        val result = service.updateUser(command)
 
-        assertTrue(result.isPresent)
-        assertEquals(updatedUser, result.get())
+        assertThat(result).isPresent
+        assertThat(result.get()).isEqualTo(updatedUser)
         verify { updateUser.handle(command) }
     }
 
@@ -122,21 +108,21 @@ class UserApplicationServiceImplShould {
         val command = DeleteUserCommand(UUID.randomUUID().toString())
         every { deleteUser.handle(command) } returns Unit
 
-        userApplicationService.deleteUser(command)
+        service.deleteUser(command)
 
         verify { deleteUser.handle(command) }
     }
 
     @Test
     fun `getUserByCredentials should return user when credentials are valid`() {
-        val query = GetUserByCredentialsQuery("testUser")
+        val query = GetUserByCredentialsQuery("test-user@mail.com")
         val user = anUser()
         every { getUserByCredentials.handle(query) } returns Optional.of(user)
 
-        val result = userApplicationService.getUserByCredentials(query)
+        val result = service.getUserByCredentials(query)
 
-        assertTrue(result.isPresent)
-        assertEquals(user, result.get())
+        assertThat(result).isPresent
+        assertThat(result.get()).isEqualTo(user)
         verify { getUserByCredentials.handle(query) }
-    }*/
+    }
 }
