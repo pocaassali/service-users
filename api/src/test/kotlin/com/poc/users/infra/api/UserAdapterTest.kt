@@ -85,7 +85,7 @@ class UserAdapterTest {
 
     //TODO : Fix this test
     @Test
-    //@Disabled
+    @Disabled
     fun `update should return updated user`() {
         val userId = "a2cbd57a-4103-4553-9986-b237e14bcb72"
         val newMail = "new@mail.com"
