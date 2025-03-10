@@ -28,7 +28,7 @@ jobs:
           gradle-version: '7.4.2'  # Version de Gradle à utiliser
 
       - name: Build with Gradle
-        run: ./gradlew build  # Lance la commande Gradle pour construire le projet
+        run: ./gradlew build -x test  # Lance la commande Gradle pour construire le projet
 
       - name: Run tests
         run: ./gradlew test  # Lance les tests unitaires avec Gradle
