@@ -4,9 +4,6 @@ on:
   push:
     branches:
       - '**'
-  pull_request:
-    branches:
-      - main  # Déclenche l'action pour les PR vers la branche main
 
 jobs:
   build:
