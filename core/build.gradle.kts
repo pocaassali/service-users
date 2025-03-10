@@ -18,6 +18,10 @@ dependencies {
 tasks.test {
     useJUnitPlatform()
 }
+tasks.withType<Test> {
+    jvmArgs = listOf("-Dnet.bytebuddy.experimental=true")
+}
+
 kotlin {
     jvmToolchain(21)
 }
