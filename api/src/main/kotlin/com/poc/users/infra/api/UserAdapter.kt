@@ -4,6 +4,7 @@ import com.poc.users.core.application.dto.command.DeleteUserCommand
 import com.poc.users.core.application.dto.query.GetUserByIdQuery
 import com.poc.users.core.application.ports.input.UserApplicationService
 import com.poc.users.core.domain.model.User
+import com.poc.users.infra.api.utils.UUIDGenerator
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Component
 import java.util.*
@@ -12,6 +13,7 @@ import java.util.*
 class UserAdapter(
     private val applicationService: UserApplicationService,
     private val passwordEncoder: PasswordEncoder,
+    private val uuidGenerator: UUIDGenerator
 ) {
     fun getAllUsers(): List<UserView> {
         return applicationService.getAllUsers().map { UserView.from(it) }
@@ -23,7 +25,7 @@ class UserAdapter(
 
     fun create(request: UserCreationRequest): UserView? {
         val command = request
-            .toCommand(identifier = UUID.randomUUID(), encryptedPassword = passwordEncoder.encode(request.password))
+            .toCommand(identifier = uuidGenerator.generate(), encryptedPassword = passwordEncoder.encode(request.password))
 
         return applicationService
             .createUser(command)
