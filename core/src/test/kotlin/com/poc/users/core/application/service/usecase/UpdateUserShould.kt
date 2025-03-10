@@ -20,7 +20,7 @@ class UpdateUserShould {
     private lateinit var service: UserService
 
     @InjectMockKs
-    private lateinit var usecase: UpdateUser
+    private lateinit var useCase: UpdateUser
 
     @Test
     fun `should return updated user when service successfully updates the user`() {
@@ -29,7 +29,7 @@ class UpdateUserShould {
 
         every { service.updateUser(user = command.toUser(), identifier = command.identifier) } returns Optional.of(updatedUser)
 
-        val result = usecase.handle(command)
+        val result = useCase.handle(command)
 
         assertThat(result).isPresent
         assertThat(result.get()).isEqualTo(updatedUser)
@@ -41,7 +41,7 @@ class UpdateUserShould {
 
         every { service.updateUser(user = command.toUser(), identifier = command.identifier) } returns Optional.empty()
 
-        val result = usecase.handle(command)
+        val result = useCase.handle(command)
 
         assertThat(result).isEmpty
     }
@@ -58,7 +58,7 @@ class UpdateUserShould {
         } throws UserCreationException("User not found !")
 
         val exception = assertThrows(UserCreationException::class.java) {
-            usecase.handle(invalidCommand)
+            useCase.handle(invalidCommand)
         }
         assertEquals("User not found !", exception.message)
     }

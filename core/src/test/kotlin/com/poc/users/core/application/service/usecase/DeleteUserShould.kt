@@ -6,7 +6,6 @@ import io.mockk.*
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.junit5.MockKExtension
-import org.junit.jupiter.api.Assertions.assertDoesNotThrow
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -19,14 +18,14 @@ class DeleteUserShould {
     private lateinit var service: UserService
 
     @InjectMockKs
-    private lateinit var usecase: DeleteUser
+    private lateinit var useCase: DeleteUser
 
     @Test
     fun `call deleteUser on service with correct UUID`() {
         val userId = UUID.randomUUID()
         val command = DeleteUserCommand(id = userId.toString())
         every { service.deleteUser(userId) } just Runs
-        usecase.handle(command)
+        useCase.handle(command)
 
         verify(exactly = 1) { service.deleteUser(userId) }
     }
@@ -37,7 +36,7 @@ class DeleteUserShould {
         val command = DeleteUserCommand(id = userId.toString())
 
         every { service.deleteUser(userId) } just Runs
-        usecase.handle(command)
+        useCase.handle(command)
 
         verify(exactly = 1) { service.deleteUser(userId) }
     }
@@ -47,7 +46,7 @@ class DeleteUserShould {
         val invalidCommand = DeleteUserCommand(id = "invalid-uuid")
 
         assertThrows(IllegalArgumentException::class.java) {
-            usecase.handle(invalidCommand)
+            useCase.handle(invalidCommand)
         }
         verify(exactly = 0) { service.deleteUser(any()) }
     }

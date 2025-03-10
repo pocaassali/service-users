@@ -20,7 +20,7 @@ class CreateUserShould {
     private lateinit var userService : UserService
 
     @InjectMockKs
-    private lateinit var usecase : CreateUser
+    private lateinit var useCase : CreateUser
 
     @Test
     fun `should successfully create a user when valid command is provided`() {
@@ -29,7 +29,7 @@ class CreateUserShould {
 
         every { userService.createUser(any()) } returns Optional.of(user)
 
-        val result = usecase.handle(command)
+        val result = useCase.handle(command)
 
         assertThat(result).isPresent
         assertThat(result.get()).isEqualTo(user)
@@ -41,7 +41,7 @@ class CreateUserShould {
         val command = aCreateUserCommand()
         every { userService.createUser(any()) } returns Optional.empty()
 
-        val result = usecase.handle(command)
+        val result = useCase.handle(command)
 
         assertThat(result).isNotPresent
         verify { userService.createUser(any()) }
